@@ -23,3 +23,22 @@ df = pd.DataFrame(data)
 
 df["time"] = pd.to_datetime(df["time"], unit="s")
 print(df[["time", "open", "high", "low", "close"]])
+
+def get_crypto_data(df, target_date):
+
+    # Convert target_date to datetime format for matching
+    target_date = pd.to_datetime(target_date)
+
+   
+    result = df[df['time'] == target_date]
+
+    if not result.empty:
+        return {
+            'Date': result['time'].iloc[0],
+            'Open': result['open'].iloc[0],
+            'High': result['high'].iloc[0],
+            'Low': result['low'].iloc[0],
+            'Close': result['close'].iloc[0],
+        }
+    else:
+        return f"No data found for the date: {target_date.strftime('%Y-%m-%d')}"
